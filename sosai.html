@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luis Sosa - AI, Analytics & Automation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #6a9167;
+            --dark-bg: #2c3e3a;
+            --light-mint: #b8d4b5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand .navbar-item {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--sage-green);
+        }
+        
+        .navbar-item:hover {
+            background-color: var(--light-mint) !important;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2624 100%);
+            color: white;
+            padding: 4rem 1.5rem;
+        }
+        
+        .hero-body {
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--light-mint);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--sage-green);
+            margin-bottom: 1rem;
+        }
+        
+        .service-card {
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(106, 145, 103, 0.3);
+            border-color: var(--sage-green);
+        }
+        
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-icon img {
+            width: 50px;
+            height: 50px;
+            filter: brightness(0) saturate(100%) invert(88%) sepia(8%) saturate(761%) hue-rotate(64deg) brightness(94%) contrast(87%);
+        }
+        
+        .section-title {
+            color: var(--sage-green);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .project-section {
+            background-color: #f9faf9;
+            padding: 3rem 1.5rem;
+        }
+        
+        .project-category {
+            margin-bottom: 3rem;
+        }
+        
+        .project-category h3 {
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--sage-green);
+            padding-bottom: 0.5rem;
+        }
+        
+        .project-item {
+            background-color: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--sage-green);
+            transition: all 0.3s ease;
+        }
+        
+        .project-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+        
+        .project-item h4 {
+            color: var(--dark-bg);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-item ul {
+            margin-left: 1.5rem;
+            color: #555;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2624 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+        }
+        
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--sage-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            transform: scale(1.1);
+            background-color: var(--light-mint);
+        }
+        
+        .contact-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--light-mint);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .logo-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-circle img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="#home">
+                    SOSAI
+                </a>
+                <a role="button" class="navbar-burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="#home">Home</a>
+                    <a class="navbar-item" href="#services">Services</a>
+                    <a class="navbar-item" href="#projects">Projects</a>
+                    <a class="navbar-item" href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <div class="logo-circle">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='90' fill='none' stroke='%236a9167' stroke-width='8'/%3E%3Ctext x='100' y='115' font-family='Arial' font-size='60' font-weight='bold' fill='%236a9167' text-anchor='middle'%3ESOS%3C/text%3E%3Ctext x='155' y='115' font-family='Arial' font-size='40' font-weight='bold' fill='%236a9167'%3EAI%3C/text%3E%3C/svg%3E" alt="SOSAI Logo">
+                </div>
+                <h1 class="hero-title">Luis Fernando Sosa Flores</h1>
+                <h2 class="hero-subtitle">Helping SMEs with AI, Analytics and Automation</h2>
+                <p class="subtitle is-5" style="color: var(--light-mint);">
+                    My mission is to help entrepreneurs gain insights from data, reduce silos and manual rework through tech.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Services</h2>
+            <div class="columns is-multiline">
+                <!-- AI & ML -->
+                <div class="column is-3">
+                    <div class="card service-card">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fas fa-brain" style="font-size: 2.5rem; color: var(--light-mint);"></i>
+                            </div>
+                            <h3 class="title is-5 has-text-centered" style="color: var(--dark-bg);">AI & ML</h3>
+                            <ul style="color: #555;">
+                                <li>GenAI</li>
+                                <li>AI-Agents</li>
+                                <li>NLP, DeepLearning, ANN</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="column is-3">
+                    <div class="card service-card">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--light-mint);"></i>
+                            </div>
+                            <h3 class="title is-5 has-text-centered" style="color: var(--dark-bg);">Analytics</h3>
+                            <ul style="color: #555;">
+                                <li>Process Mining</li>
+                                <li>Setting up Databases</li>
+                                <li>Visualization & Storytelling</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Automation -->
+                <div class="column is-3">
+                    <div class="card service-card">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fas fa-cogs" style="font-size: 2.5rem; color: var(--light-mint);"></i>
+                            </div>
+                            <h3 class="title is-5 has-text-centered" style="color: var(--dark-bg);">Automation</h3>
+                            <ul style="color: #555;">
+                                <li>CRM & ERP Automation</li>
+                                <li>Webhooks and APIs</li>
+                                <li>No-Code with Make & Zapier</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Analytics -->
+                <div class="column is-3">
+                    <div class="card service-card">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fas fa-rocket" style="font-size: 2.5rem; color: var(--light-mint);"></i>
+                            </div>
+                            <h3 class="title is-5 has-text-centered" style="color: var(--dark-bg);">Web Analytics</h3>
+                            <ul style="color: #555;">
+                                <li>Website Building and SEO</li>
+                                <li>Tracking via GA, Amplitude</li>
+                                <li>User Engagement</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="project-section">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            
+            <!-- AI & ML Projects -->
+            <div class="project-category">
+                <h3><i class="fas fa-brain"></i> AI & ML Projects</h3>
+                <div class="project-item">
+                    <h4>JobRad - NLP for Market Expansion</h4>
+                    <ul>
+                        <li>Sentiment Analysis</li>
+                        <li>1000 PDFs with 100+ pages each of non-structured data</li>
+                    </ul>
+                </div>
+                <div class="project-item">
+                    <h4>AI Website Building</h4>
+                    <p>Sarahs Kartkis</p>
+                </div>
+                <div class="project-item">
+                    <h4>AI Support Agent</h4>
+                </div>
+            </div>
+
+            <!-- Analytics Projects -->
+            <div class="project-category">
+                <h3><i class="fas fa-chart-line"></i> Analytics</h3>
+                <div class="project-item">
+                    <h4>CorrelAid</h4>
+                </div>
+                <div class="project-item">
+                    <h4>Master Thesis</h4>
+                    <p>Learning Analytics - Assessing the impact of formative assessments and adaptive learning paths on learners' success</p>
+                </div>
+                <div class="project-item">
+                    <h4>Whirlpool</h4>
+                </div>
+                <div class="project-item">
+                    <h4>U.Dream in Lisbon</h4>
+                </div>
+            </div>
+
+            <!-- Automation Projects -->
+            <div class="project-category">
+                <h3><i class="fas fa-cogs"></i> Automation</h3>
+                <div class="project-item">
+                    <h4>ISA Health</h4>
+                    <ul>
+                        <li>Automated order process → Recovering 50% overhead time</li>
+                    </ul>
+                </div>
+                <div class="project-item">
+                    <h4>Meridiano 1 - Milla 3001</h4>
+                    <ul>
+                        <li>Automated logistic process for whole north Mexico</li>
+                    </ul>
+                </div>
+                <div class="project-item">
+                    <h4>Meridiano 2 - Built CRM from Scratch</h4>
+                    <ul>
+                        <li>Focusing on Automation</li>
+                        <li>Serving 10+ customers without operations team</li>
+                    </ul>
+                </div>
+                <div class="project-item">
+                    <h4>Idana</h4>
+                    <ul>
+                        <li>Built After-Sales automations to achieve serving 500+ customers with 2.5 FTEs</li>
+                        <li>Based on Make</li>
+                    </ul>
+                </div>
+                <div class="project-item">
+                    <h4>Celonis</h4>
+                    <ul>
+                        <li>Helped build the foundations of automation with Zapier</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Web Analytics Projects -->
+            <div class="project-category">
+                <h3><i class="fas fa-rocket"></i> Web Analytics</h3>
+                <div class="project-item">
+                    <h4>El Yucanito</h4>
+                    <p><a href="https://www.facebook.com/ElYucanito/" target="_blank">https://www.facebook.com/ElYucanito/</a></p>
+                </div>
+                <div class="project-item">
+                    <h4>Eliya Floreth</h4>
+                    <p>Brand placing and tracking</p>
+                </div>
+                <div class="project-item">
+                    <h4>Blue Courses Certification</h4>
+                    <p>Got the ground basis</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--light-mint);">Questions?</h2>
+            <p class="has-text-centered subtitle is-5">Feel free to send a message:</p>
+            
+            <div class="contact-icons">
+                <a href="https://www.linkedin.com/in/luisfernandososaflores/" target="_blank" class="contact-icon">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://wa.me/+491788250642" target="_blank" class="contact-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="mailto:sosaluf@gmail.com" class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="#contact" class="contact-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </a>
+            </div>
+            
+            <div class="has-text-centered" style="margin-top: 2rem;">
+                <p><strong>Luis Sosa Flores</strong></p>
+                <p>sosaluf@gmail.com | +49 1788250642</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Luis Sosa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
