@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Luis Sosa</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-green: #6a9167;
+            --dark-bg: #2c3e3a;
+            --light-mint: #b8d4b5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand .navbar-item {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--sage-green);
+        }
+        
+        .navbar-item:hover {
+            background-color: var(--light-mint) !important;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 3rem 1.5rem;
+            background: linear-gradient(135deg, #f9faf9 0%, #ffffff 100%);
+        }
+        
+        .contact-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-header h1 {
+            color: var(--sage-green);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-header p {
+            color: var(--dark-bg);
+            font-size: 1.2rem;
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .contact-info h2 {
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info p {
+            color: #555;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        
+        .contact-info a {
+            color: var(--sage-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .typeform-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 900px;
+        }
+        
+        .typeform-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--light-mint);
+            padding: 1.5rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="index.html">
+                    SOSAI
+                </a>
+                <a role="button" class="navbar-burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item" href="index.html">Home</a>
+                    <a class="navbar-item" href="index.html#services">Services</a>
+                    <a class="navbar-item" href="index.html#projects">Projects</a>
+                    <a class="navbar-item" href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="contact-header">
+                <h1>Get in Contact</h1>
+                <p>I'd love to hear from you!</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2>Luis Sosa Flores</h2>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:sosaluf@gmail.com">sosaluf@gmail.com</a></p>
+                <p><i class="fas fa-phone"></i> <a href="tel:+491788250642">+49 1788250642</a></p>
+            </div>
+
+            <!-- Typeform Embed -->
+            <div class="typeform-container" style="height: 600px;">
+                <div data-tf-live="01KCXWRAY9JAVQX8EDNSBTT7VA"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Luis Sosa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="//embed.typeform.com/next/embed.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
