@@ -74,6 +74,8 @@
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
         }
         
         .contact-info h2 {
@@ -86,7 +88,7 @@
         .contact-info p {
             color: #555;
             font-size: 1.1rem;
-            margin: 0.5rem 0;
+            margin: 0.5rem 0 1.5rem 0;
         }
         
         .contact-info a {
@@ -97,6 +99,41 @@
         
         .contact-info a:hover {
             text-decoration: underline;
+        }
+        
+        .contact-info .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--sage-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            transform: scale(1.1);
+            background-color: var(--dark-bg);
+        }
+        
+        .contact-icon i {
+            font-size: 1.3rem;
+            color: white;
         }
         
         .typeform-container {
@@ -158,10 +195,18 @@
             </div>
 
             <!-- Contact Information -->
-            <div class="contact-info" style="position: relative; z-index: 10;">
+            <div class="contact-info">
                 <h2>Luis Sosa Flores</h2>
-                <p><i class="fas fa-envelope"></i> <a href="mailto:sosaluf@gmail.com">sosaluf@gmail.com</a></p>
-                <p><i class="fas fa-phone"></i> <a href="tel:+491788250642">+49 1788250642</a></p>
+                <p>sosaluf@gmail.com | +49 1788250642</p>
+                
+                <div class="contact-icons">
+                    <a href="https://www.linkedin.com/in/luisfernandososaflores/" target="_blank" class="contact-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://wa.me/+491788250642" target="_blank" class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
             </div>
 
             <!-- Typeform Embed -->
@@ -174,7 +219,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Luis Sosa. All rights reserved.</p>
+            <p>&copy; 2024 Luis Sosa. All rights reserved.</p>
         </div>
     </footer>
 
