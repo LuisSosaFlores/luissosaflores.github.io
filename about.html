@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Luis Sosa</title>
+    <title>About - Luis Sosa</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -41,69 +41,62 @@
             background: linear-gradient(135deg, #f9faf9 0%, #ffffff 100%);
         }
         
-        .contact-header {
+        .about-header {
             text-align: center;
             margin-bottom: 3rem;
         }
         
-        .contact-header h1 {
+        .about-header h1 {
             color: var(--sage-green);
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
         }
         
-        .contact-header p {
-            color: var(--dark-bg);
-            font-size: 1.2rem;
-        }
-        
-        .contact-info {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding: 2rem;
+        .about-content {
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .contact-info h2 {
-            color: var(--dark-bg);
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        .about-image {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         
-        .contact-info p {
-            color: #555;
+        .about-text {
             font-size: 1.1rem;
-            margin: 0.5rem 0;
+            line-height: 1.8;
+            color: #333;
         }
         
-        .contact-info a {
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text a {
             color: var(--sage-green);
             text-decoration: none;
             font-weight: 600;
         }
         
-        .contact-info a:hover {
+        .about-text a:hover {
             text-decoration: underline;
         }
         
-        .typeform-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
-            margin: 2rem auto 0;
-            max-width: 900px;
-            min-height: 600px;
-            position: relative;
-        }
-        
-        .typeform-container > div {
-            width: 100%;
-            height: 600px;
+        @media (max-width: 768px) {
+            .about-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .about-image {
+                margin-bottom: 2rem;
+            }
         }
         
         footer {
@@ -143,21 +136,37 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="container">
-            <div class="contact-header">
-                <h1>Get in Contact</h1>
-                <p>I'd love to hear from you!</p>
+            <div class="about-header">
+                <h1>About</h1>
             </div>
 
-            <!-- Contact Information -->
-            <div class="contact-info" style="position: relative; z-index: 10;">
-                <h2>Luis Sosa Flores</h2>
-                <p><i class="fas fa-envelope"></i> <a href="mailto:sosaluf@gmail.com">sosaluf@gmail.com</a></p>
-                <p><i class="fas fa-phone"></i> <a href="tel:+491788250642">+49 1788250642</a></p>
-            </div>
-
-            <!-- Typeform Embed -->
-            <div class="typeform-container">
-                <div data-tf-live="01KCXWRAY9JAVQX8EDNSBTT7VA"></div>
+            <div class="about-content">
+                <div class="columns is-vcentered">
+                    <div class="column is-8">
+                        <div class="about-text">
+                            <p>
+                                Luis Sosa works at the intersection of AI and automation. Alongside building a career as a data scientist and data analyst, Luis has helped organisations and small teams develop a go-to-market strategy based on reducing rework and automating monotonous tasks. He helps founders and entrepreneurs launch their products and services, even when they have few or no resources.
+                            </p>
+                            <p>
+                                He earned his Master's degree in Data Science & Business Analytics at <a href="https://www.kuleuven.be/english/kuleuven" target="_blank">KU Leuven</a> in Belgium, having received the <a href="https://www.studyinflanders.be/scholarships/master-mind-scholarships" target="_blank">"Master Mind"</a> excellence scholarship.
+                            </p>
+                            <p>
+                                Having built networks in Mexico, the US, Belgium, Portugal and the Netherlands, he now lives in Freiburg im Breisgau, Germany's green capital.
+                            </p>
+                            <p>
+                                Outside of work, Luis spends his time learning about psychology, cognition and behavioural science. He is also eager to advance the state of the science by conducting research in the field of learning, with the aim of helping people learn better with support from technologies such as AI and NLP.
+                            </p>
+                            <p>
+                                If you would like to chat about common interests or potential collaborations, please <a href="https://luissosaflores.github.io/contact.html">get in touch</a>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <figure class="image">
+                            <img src="luis-photo.jpg" alt="Luis Sosa Flores" class="about-image">
+                        </figure>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -169,7 +178,6 @@
         </div>
     </footer>
 
-    <script src="//embed.typeform.com/next/embed.js"></script>
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', () => {
