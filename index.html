@@ -68,6 +68,10 @@
             height: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         
         .service-card:hover {
@@ -254,8 +258,7 @@
                 <div class="navbar-end">
                     <a class="navbar-item" href="#home">Home</a>
                     <a class="navbar-item" href="about.html">About</a>
-                    <a class="navbar-item" href="#services">Services</a>
-                    <a class="navbar-item" href="#projects">Projects</a>
+                    <a class="navbar-item" href="#projects">Projects & Services</a>
                     <a class="navbar-item" href="https://luissosaflores.github.io/contact.html">Contact</a>
                 </div>
             </div>
@@ -285,7 +288,7 @@
             <div class="columns is-multiline">
                 <!-- AI & ML -->
                 <div class="column is-3">
-                    <div class="card service-card">
+                    <a href="#ai-ml-projects" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-brain" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -297,12 +300,12 @@
                                 <li>NLP, DeepLearning, ANN</li>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Analytics -->
                 <div class="column is-3">
-                    <div class="card service-card">
+                    <a href="#analytics-projects" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -314,12 +317,12 @@
                                 <li>Visualization & Storytelling</li>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Automation -->
                 <div class="column is-3">
-                    <div class="card service-card">
+                    <a href="#automation-projects" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-cogs" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -331,12 +334,12 @@
                                 <li>No-Code with Make & Zapier</li>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <!-- Web Analytics -->
                 <div class="column is-3">
-                    <div class="card service-card">
+                    <a href="#web-analytics-projects" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-rocket" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -348,7 +351,7 @@
                                 <li>User Engagement</li>
                             </ul>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -360,7 +363,7 @@
             <h2 class="section-title">Projects</h2>
             
             <!-- AI & ML Projects -->
-            <div class="project-category">
+            <div class="project-category" id="ai-ml-projects">
                 <h3><i class="fas fa-brain"></i> AI & ML Projects</h3>
                 
                 <a href="https://github.com/LuisSosaFlores/jr-2022/" target="_blank" class="project-item">
@@ -399,7 +402,7 @@
             </div>
 
             <!-- Analytics Projects -->
-            <div class="project-category">
+            <div class="project-category" id="analytics-projects">
                 <h3><i class="fas fa-chart-line"></i> Analytics</h3>
                 
                 <a href="https://correlaid.org/" target="_blank" class="project-item">
@@ -449,7 +452,7 @@
             </div>
 
             <!-- Automation Projects -->
-            <div class="project-category">
+            <div class="project-category" id="automation-projects">
                 <h3><i class="fas fa-cogs"></i> Automation</h3>
                 
                 <a href="https://www.isahealth.com/" target="_blank" class="project-item">
@@ -498,7 +501,7 @@
             </div>
 
             <!-- Web Analytics Projects -->
-            <div class="project-category">
+            <div class="project-category" id="web-analytics-projects">
                 <h3><i class="fas fa-rocket"></i> Web Analytics</h3>
                 
                 <a href="https://www.facebook.com/ElYucanito/" target="_blank" class="project-item">
