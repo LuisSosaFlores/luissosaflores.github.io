@@ -256,11 +256,11 @@
     <nav class="navbar" role="navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="#home">
+                <a class="navbar-item" id="nav-logo" href="#home">
                     <img src="logo-sosai.png" alt="SOSAI Logo" class="navbar-logo">
                     SOSAI
                 </a>
-                <a role="button" class="navbar-burger" data-target="navMenu">
+                <a role="button" class="navbar-burger" id="nav-burger" data-target="navMenu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -268,10 +268,10 @@
             </div>
             <div id="navMenu" class="navbar-menu">
                 <div class="navbar-end">
-                    <a class="navbar-item" href="#home">Home</a>
-                    <a class="navbar-item" href="about.html">About</a>
-                    <a class="navbar-item" href="#services">Projects & Services</a>
-                    <a class="navbar-item" href="https://luissosaflores.github.io/contact.html">Contact</a>
+                    <a class="navbar-item" id="nav-home" href="#home">Home</a>
+                    <a class="navbar-item" id="nav-about" href="about.html">About</a>
+                    <a class="navbar-item" id="nav-projects-services" href="#services">Projects & Services</a>
+                    <a class="navbar-item" id="nav-contact" href="contact.html">Contact</a>
                 </div>
             </div>
         </div>
@@ -300,7 +300,7 @@
             <div class="columns is-multiline">
                 <!-- AI & ML -->
                 <div class="column is-3">
-                    <a href="#ai-ml-projects" class="service-card card">
+                    <a href="#ai-ml-projects" id="service-ai" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-brain" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -317,7 +317,7 @@
 
                 <!-- Analytics -->
                 <div class="column is-3">
-                    <a href="#analytics-projects" class="service-card card">
+                    <a href="#analytics-projects" id="service-analytics" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -334,7 +334,7 @@
 
                 <!-- Automation -->
                 <div class="column is-3">
-                    <a href="#automation-projects" class="service-card card">
+                    <a href="#automation-projects" id="service-automation" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-cogs" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -351,7 +351,7 @@
 
                 <!-- Web Analytics -->
                 <div class="column is-3">
-                    <a href="#web-analytics-projects" class="service-card card">
+                    <a href="#web-analytics-projects" id="service-web-analytics" class="service-card card">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-rocket" style="font-size: 2.5rem; color: var(--light-mint);"></i>
@@ -378,7 +378,7 @@
             <div class="project-category" id="ai-ml-projects">
                 <h3><i class="fas fa-brain"></i> AI & ML Projects</h3>
                 
-                <a href="https://github.com/LuisSosaFlores/jr-2022/" target="_blank" class="project-item">
+                <a href="https://github.com/LuisSosaFlores/jr-2022/" id="project-jobrad" target="_blank" class="project-item">
                     <img src="project-logos/jobrad.png" alt="JobRad" class="project-logo">
                     <div class="project-content">
                         <h4>JobRad - NLP for Market Expansion</h4>
@@ -390,7 +390,7 @@
                     </div>
                 </a>
                 
-                <a href="https://sarah-kartki.softr.app/" target="_blank" class="project-item">
+                <a href="https://sarah-kartki.softr.app/" id="project-sarah" target="_blank" class="project-item">
                     <img src="project-logos/sarah.png" alt="Sarah Kartki" class="project-logo">
                     <div class="project-content">
                         <h4>Sarah Kartki</h4>
@@ -401,7 +401,7 @@
                     </div>
                 </a>
                 
-                <a href="https://www.make.com/en/agentic-automation" target="_blank" class="project-item">
+                <a href="https://www.make.com/en/agentic-automation" id="project-support-agent" target="_blank" class="project-item">
                     <img src="project-logos/make.png" alt="AI Support Agent" class="project-logo">
                     <div class="project-content">
                         <h4>AI Support Agent</h4>
@@ -417,7 +417,7 @@
             <div class="project-category" id="analytics-projects">
                 <h3><i class="fas fa-chart-line"></i> Analytics</h3>
                 
-                <a href="https://correlaid.org/" target="_blank" class="project-item">
+                <a href="https://correlaid.org/" id="project-correlaid" target="_blank" class="project-item">
                     <img src="project-logos/correlaid.png" alt="CorrelAid" class="project-logo">
                     <div class="project-content">
                         <h4>CorrelAid</h4>
@@ -428,7 +428,7 @@
                     </div>
                 </a>
                 
-                <a href="https://drive.google.com/file/d/1ZFeKz5G-MRk7Ou-GpYFPuwfnVfmbgc1G/view?usp=sharing" target="_blank" class="project-item">
+                <a href="https://drive.google.com/file/d/1ZFeKz5G-MRk7Ou-GpYFPuwfnVfmbgc1G/view?usp=sharing" id="project-master-thesis" target="_blank" class="project-item">
                     <img src="project-logos/kuleuven.png" alt="Master Thesis" class="project-logo">
                     <div class="project-content">
                         <h4>Master Thesis</h4>
@@ -439,7 +439,7 @@
                     </div>
                 </a>
                 
-                <a href="https://www.udream.pt/" target="_blank" class="project-item">
+                <a href="https://www.udream.pt/" id="project-udream" target="_blank" class="project-item">
                     <img src="project-logos/udream.png" alt="U.Dream Lisboa" class="project-logo">
                     <div class="project-content">
                         <h4>U.Dream Lisboa</h4>
@@ -450,7 +450,7 @@
                     </div>
                 </a>
                 
-                <a href="https://drive.google.com/file/d/1wx9ILtFw9Jd-lwSGgAvnVj5Jj9Ose8NA/view?usp=sharing" target="_blank" class="project-item">
+                <a href="https://drive.google.com/file/d/1wx9ILtFw9Jd-lwSGgAvnVj5Jj9Ose8NA/view?usp=sharing" id="project-whirlpool" target="_blank" class="project-item">
                     <img src="project-logos/whirlpool.png" alt="Whirlpool" class="project-logo">
                     <div class="project-content">
                         <h4>Whirlpool</h4>
@@ -467,7 +467,7 @@
             <div class="project-category" id="automation-projects">
                 <h3><i class="fas fa-cogs"></i> Automation</h3>
                 
-                <a href="https://www.isahealth.com/" target="_blank" class="project-item">
+                <a href="https://www.isahealth.com/" id="project-isah-health" target="_blank" class="project-item">
                     <img src="project-logos/isahhealth.png" alt="ISAH HEALTH" class="project-logo">
                     <div class="project-content">
                         <h4>ISAH HEALTH</h4>
@@ -478,7 +478,7 @@
                     </div>
                 </a>
                 
-                <a href="https://www.linkedin.com/company/meridiano-capital/about/" target="_blank" class="project-item">
+                <a href="https://www.linkedin.com/company/meridiano-capital/about/" id="project-meridiano" target="_blank" class="project-item">
                     <img src="project-logos/meridiano.png" alt="Meridiano" class="project-logo">
                     <div class="project-content">
                         <h4>Meridiano</h4>
@@ -489,7 +489,7 @@
                     </div>
                 </a>
                 
-                <a href="https://idana.com/" target="_blank" class="project-item">
+                <a href="https://idana.com/" id="project-idana" target="_blank" class="project-item">
                     <img src="project-logos/idana.png" alt="Idana" class="project-logo">
                     <div class="project-content">
                         <h4>Idana</h4>
@@ -500,7 +500,7 @@
                     </div>
                 </a>
                 
-                <a href="https://www.celonis.com/de" target="_blank" class="project-item">
+                <a href="https://www.celonis.com/de" id="project-celonis" target="_blank" class="project-item">
                     <img src="project-logos/celonis.png" alt="Celonis" class="project-logo">
                     <div class="project-content">
                         <h4>Celonis</h4>
@@ -516,7 +516,7 @@
             <div class="project-category" id="web-analytics-projects">
                 <h3><i class="fas fa-rocket"></i> Web Analytics</h3>
                 
-                <a href="https://www.facebook.com/ElYucanito/" target="_blank" class="project-item">
+                <a href="https://www.facebook.com/ElYucanito/" id="project-yucanito" target="_blank" class="project-item">
                     <img src="project-logos/yucanito.png" alt="El Yucanito" class="project-logo">
                     <div class="project-content">
                         <h4>El Yucanito</h4>
@@ -527,7 +527,7 @@
                     </div>
                 </a>
                 
-                <a href="https://elisafloreth.wixsite.com/" target="_blank" class="project-item">
+                <a href="https://elisafloreth.wixsite.com/" id="project-elisa-floreth" target="_blank" class="project-item">
                     <img src="project-logos/elisafloreth.png" alt="Elisa Floreth" class="project-logo">
                     <div class="project-content">
                         <h4>Elisa Floreth</h4>
@@ -538,7 +538,7 @@
                     </div>
                 </a>
                 
-                <a href="https://www.bluecourses.com/courses/course-v1:bluecourses+BC14+2020_Q2/about" target="_blank" class="project-item">
+                <a href="https://www.bluecourses.com/courses/course-v1:bluecourses+BC14+2020_Q2/about" id="project-blue-courses" target="_blank" class="project-item">
                     <img src="project-logos/bluecourses.png" alt="Blue Courses" class="project-logo">
                     <div class="project-content">
                         <h4>Web Analytics Certification</h4>
@@ -559,16 +559,16 @@
             <p class="has-text-centered subtitle is-5" style="color: var(--light-mint);">Feel free to send a message:</p>
             
             <div class="contact-icons">
-                <a href="https://www.linkedin.com/in/luisfernandososaflores/" target="_blank" class="contact-icon">
+                <a href="https://www.linkedin.com/in/luisfernandososaflores/" id="contact-linkedin" target="_blank" class="contact-icon">
                     <i class="fab fa-linkedin"></i>
                 </a>
-                <a href="https://wa.me/+491788250642" target="_blank" class="contact-icon">
+                <a href="https://wa.me/+491788250642" id="contact-whatsapp" target="_blank" class="contact-icon">
                     <i class="fab fa-whatsapp"></i>
                 </a>
-                <a href="mailto:sosaluf@gmail.com" class="contact-icon">
+                <a href="mailto:sosaluf@gmail.com" id="contact-email" class="contact-icon">
                     <i class="fas fa-envelope"></i>
                 </a>
-                <a href="contact.html" class="contact-icon">
+                <a href="contact.html" id="contact-redirect-form" class="contact-icon">
                     <i class="fas fa-file-alt"></i>
                 </a>
             </div>

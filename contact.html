@@ -177,11 +177,11 @@
     <nav class="navbar" role="navigation">
         <div class="container">
             <div class="navbar-brand">
-                <a class="navbar-item" href="index.html">
+                <a class="navbar-item" id="nav-logo" href="index.html">
                     <img src="logo-sosai.png" alt="SOSAI Logo" class="navbar-logo">
                     SOSAI
                 </a>
-                <a role="button" class="navbar-burger" data-target="navMenu">
+                <a role="button" class="navbar-burger" id="nav-burger" data-target="navMenu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -189,10 +189,10 @@
             </div>
             <div id="navMenu" class="navbar-menu">
                 <div class="navbar-end">
-                    <a class="navbar-item" href="index.html">Home</a>
-                    <a class="navbar-item" href="about.html">About</a>
-                    <a class="navbar-item" href="index.html#services">Projects & Services</a>
-                    <a class="navbar-item" href="https://luissosaflores.github.io/contact.html">Contact</a>
+                    <a class="navbar-item" id="nav-home" href="index.html">Home</a>
+                    <a class="navbar-item" id="nav-about" href="about.html">About</a>
+                    <a class="navbar-item" id="nav-projects-services" href="index.html#services">Projects & Services</a>
+                    <a class="navbar-item" id="nav-contact" href="contact.html">Contact</a>
                 </div>
             </div>
         </div>
@@ -209,20 +209,23 @@
             <!-- Contact Information -->
             <div class="contact-info">
                 <h2>Luis Sosa Flores</h2>
-                <p>sosaluf@gmail.com | +49 1788250642</p>
+                <p>
+                    <span id="contact-email" style="cursor: text;">sosaluf@gmail.com</span> | 
+                    <span id="contact-telephone" style="cursor: text;">+49 1788250642</span>
+                </p>
                 
                 <div class="contact-icons">
-                    <a href="https://www.linkedin.com/in/luisfernandososaflores/" target="_blank" class="contact-icon">
+                    <a href="https://www.linkedin.com/in/luisfernandososaflores/" id="contact-linkedin" target="_blank" class="contact-icon">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://wa.me/+491788250642" target="_blank" class="contact-icon">
+                    <a href="https://wa.me/+491788250642" id="contact-whatsapp" target="_blank" class="contact-icon">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Typeform Embed -->
-            <div class="typeform-container">
+            <div class="typeform-container" id="contact-typeform">
                 <div data-tf-live="01KCXWRAY9JAVQX8EDNSBTT7VA"></div>
             </div>
         </div>
