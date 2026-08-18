@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Dynamics in AI Adoption — Interactive Demo</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #060D1F;
+  --bg2:        #0B1730;
+  --surface:    #0F1F3D;
+  --border:     rgba(90, 130, 220, 0.14);
+  --text:       #D8E4FF;
+  --muted:      #6B84B4;
+  --blue:       #344A9A;
+  --teal:       #00B890;
+  --gold:       #FFD166;
+  --gold-dim:   rgba(255, 209, 102, 0.25);
+  --c-mgmt:    #9B87D1;
+  --c-sales:   #5B8FE0;
+  --c-eng:     #4A68CF;
+  --c-ops:     #3D9D8E;
+  --c-ai:      #FFD166;
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ── HEADER ───────────────────────────────────────── */
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  font-size: 9.5px;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+}
+
+#header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+#header-right kbd {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 9px;
+  color: var(--text);
+}
+
+/* ── GRAPH WRAP ───────────────────────────────────── */
+#graph-wrap {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#graph {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── LEGEND ───────────────────────────────────────── */
+#legend {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: rgba(6,13,31,0.88);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 13px;
+  backdrop-filter: blur(6px);
+  min-width: 145px;
+}
+
+.leg-head {
+  font-size: 8.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  margin-bottom: 5px;
+  color: var(--text);
+}
+
+.leg-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.leg-line {
+  width: 22px; height: 2.5px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.leg-sep {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 8px 0;
+}
+
+.leg-note {
+  font-size: 9.5px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── STATS PANEL ──────────────────────────────────── */
+#stats {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  background: rgba(6,13,31,0.88);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 13px;
+  backdrop-filter: blur(6px);
+  min-width: 160px;
+}
+
+.stat-head {
+  font-size: 8.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
+.stat-lbl { font-size: 10px; color: var(--muted); }
+.stat-val { font-size: 12px; font-weight: 700; color: var(--text); }
+.stat-val.gold { color: var(--gold); }
+
+/* ── ANNOTATION ───────────────────────────────────── */
+#annotation {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6,13,31,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 5px;
+  padding: 7px 14px;
+  font-size: 11.5px;
+  color: var(--text);
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  transition: opacity .4s;
+  max-width: 90vw;
+  white-space: normal;
+  text-align: center;
+}
+
+#annotation.hidden { opacity: 0; }
+
+/* ── TOOLTIP ──────────────────────────────────────── */
+#tooltip {
+  position: fixed;
+  background: rgba(6,13,31,.96);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 9px 13px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .12s;
+  z-index: 200;
+  min-width: 150px;
+}
+#tooltip.on { opacity: 1; }
+
+.tt-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.tt-dept { font-size: 9px; text-transform: uppercase; letter-spacing: .09em; color: var(--muted); margin-bottom: 7px; }
+.tt-row  { display: flex; justify-content: space-between; gap: 12px; font-size: 10px; margin-bottom: 3px; }
+.tt-lbl  { color: var(--muted); }
+.tt-val  { font-weight: 600; }
+
+/* ── TIMELINE PANEL ───────────────────────────────── */
+#timeline {
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 10px 20px 12px;
+}
+
+#tl-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+#date-display {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  min-width: 170px;
+}
+
+#phase-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 3px 11px;
+  border-radius: 20px;
+  transition: all .4s;
+}
+#phase-badge.pre  { background:rgba(91,143,224,.12); color:#5B8FE0; border:1px solid rgba(91,143,224,.3); }
+#phase-badge.now  { background:rgba(255,209,102,.15); color:var(--gold); border:1px solid rgba(255,209,102,.4); }
+#phase-badge.post { background:rgba(0,184,144,.12);  color:var(--teal); border:1px solid rgba(0,184,144,.3); }
+
+/* ── SLIDER ───────────────────────────────────────── */
+#slider-wrap {
+  position: relative;
+  margin: 0 2px 3px;
+}
+
+#ai-tick {
+  position: absolute;
+  left: calc(50% - 1px);
+  top: -3px;
+  width: 2px;
+  height: 26px;
+  background: var(--gold);
+  opacity: .75;
+  pointer-events: none;
+  z-index: 2;
+}
+#ai-tick::after {
+  content: '★ AI';
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(100,130,200,.2);
+  outline: none;
+  cursor: pointer;
+  margin: 10px 0 4px;
+  position: relative;
+  z-index: 3;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--blue);
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,.5);
+  transition: box-shadow .15s;
+}
+input[type=range]:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 5px rgba(52,74,154,.3), 0 1px 6px rgba(0,0,0,.5);
+}
+input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--blue);
+  cursor: pointer;
+}
+
+#slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--muted);
+  padding: 0 2px;
+}
+#slider-labels span:nth-child(3) { color: var(--gold); font-weight: 700; }
+
+/* ── CONTROLS ROW ─────────────────────────────────── */
+#controls-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 7px;
+}
+
+#play-btn {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  letter-spacing: .02em;
+}
+#play-btn:hover { background: #4560BC; }
+#play-btn:active { transform: scale(.97); }
+
+.spd-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all .15s;
+  font-weight: 600;
+}
+.spd-btn:hover, .spd-btn.on {
+  background: rgba(52,74,154,.25);
+  color: var(--text);
+  border-color: var(--blue);
+}
+
+#hint {
+  margin-left: auto;
+  font-size: 9.5px;
+  color: var(--muted);
+}
+
+/* ── SVG ELEMENTS ─────────────────────────────────── */
+.cluster-hull { transition: opacity .5s; }
+.edge { transition: stroke-width .55s, stroke-opacity .55s, stroke .55s; }
+.node-circle { cursor: pointer; }
+.node-label {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 10px;
+  fill: #fff;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  font-weight: 700;
+  letter-spacing: .015em;
+}
+
+@keyframes aiRipple {
+  0%   { r: 18; stroke-opacity: .85; stroke-width: 3; }
+  100% { r: 115; stroke-opacity: 0;  stroke-width: .5; }
+}
+.ripple {
+  fill: none;
+  stroke: var(--gold);
+  animation: aiRipple 1.45s cubic-bezier(.2,.6,.4,1) forwards;
+}
+
+@keyframes aiPulse {
+  0%,100% { filter: drop-shadow(0 0 5px rgba(255,209,102,.45)); }
+  50%      { filter: drop-shadow(0 0 14px rgba(255,209,102,.95)); }
+}
+.ai-glow { animation: aiPulse 2.2s ease-in-out infinite; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="eyebrow">University of Freiburg · Prof. Dr. Olaf N. Rank &nbsp;|&nbsp; Network Dynamics in AI Adoption — Research Demo</div>
+  <div id="header-right">
+    Hover nodes &nbsp;·&nbsp; <kbd>←</kbd><kbd>→</kbd> step &nbsp;·&nbsp; <kbd>Space</kbd> play/pause
+  </div>
+</div>
+
+<!-- GRAPH -->
+<div id="graph-wrap">
+  <svg id="graph" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet"></svg>
+
+  <div id="legend">
+    <div class="leg-head">Departments</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-mgmt)"></div>Management</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-sales)"></div>Sales</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-eng)"></div>Engineering</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-ops)"></div>Operations</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--c-ai)"></div>AI Agent</div>
+    <hr class="leg-sep">
+    <div class="leg-head">Connection type</div>
+    <div class="leg-item"><div class="leg-line" style="background:rgba(140,165,230,.75)"></div>Existing</div>
+    <div class="leg-item"><div class="leg-line" style="background:rgba(0,195,155,.85)"></div>New (post-AI)</div>
+    <div class="leg-item"><div class="leg-line" style="background:rgba(255,195,80,.9)"></div>Via AI</div>
+    <hr class="leg-sep">
+    <div class="leg-note">Node size = interaction<br>volume (weighted degree)</div>
+  </div>
+
+  <div id="stats">
+    <div class="stat-head">Network snapshot</div>
+    <div class="stat-row"><span class="stat-lbl">Active links</span><span class="stat-val" id="s-links">—</span></div>
+    <div class="stat-row"><span class="stat-lbl">Cross-dept</span><span class="stat-val" id="s-cross">—</span></div>
+    <div class="stat-row"><span class="stat-lbl">Top connector</span><span class="stat-val gold" id="s-top">—</span></div>
+    <div class="stat-row"><span class="stat-lbl">AI adoption</span><span class="stat-val" id="s-ai">0 %</span></div>
+  </div>
+
+  <div id="annotation" class="hidden"></div>
+
+  <div id="tooltip">
+    <div class="tt-name" id="tt-name"></div>
+    <div class="tt-dept" id="tt-dept"></div>
+    <div class="tt-row"><span class="tt-lbl">Connections</span><span class="tt-val" id="tt-conn"></span></div>
+    <div class="tt-row"><span class="tt-lbl">Activity score</span><span class="tt-val" id="tt-wt"></span></div>
+    <div class="tt-row" id="tt-ai-row"><span class="tt-lbl">AI interaction</span><span class="tt-val" id="tt-ai"></span></div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div id="timeline">
+  <div id="tl-top">
+    <div id="date-display">March 2024</div>
+    <div id="phase-badge" class="pre">Pre-AI Baseline</div>
+  </div>
+  <div id="slider-wrap">
+    <div id="ai-tick"></div>
+    <input type="range" id="slider" min="0" max="24" value="0" step="1">
+  </div>
+  <div id="slider-labels">
+    <span>Mar 2024</span><span>Sep 2024</span><span>★ Mar 2025</span><span>Sep 2025</span><span>Mar 2026</span>
+  </div>
+  <div id="controls-row">
+    <button id="play-btn">▶ Play</button>
+    <button class="spd-btn on" data-s="1">1×</button>
+    <button class="spd-btn" data-s="2">2×</button>
+    <button class="spd-btn" data-s="4">4×</button>
+    <span id="hint">Drag the slider or press Play to explore how the network evolves</span>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// 1. CONSTANTS & DATA
+// ================================================================
+
+const TOTAL_MONTHS = 25;   // 0 = Mar 2024 … 24 = Mar 2026
+const AI_MONTH     = 12;   // March 2025
+
+function monthLabel(idx) {
+  const d = new Date(2024, 2 + idx, 1);
+  return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}
+
+// Fixed node positions inside SVG viewBox 0 0 1000 600
+const PEOPLE = [
+  { id:0,  name:'Isabel', dept:'Management',  x:472, y:108 },
+  { id:1,  name:'Jack',   dept:'Management',  x:562, y:178 },
+  { id:2,  name:'Alice',  dept:'Sales',       x:158, y:242 },
+  { id:3,  name:'Bob',    dept:'Sales',       x:100, y:358 },
+  { id:4,  name:'Carol',  dept:'Sales',       x:192, y:456 },
+  { id:5,  name:'David',  dept:'Sales',       x:296, y:328 },
+  { id:6,  name:'Eva',    dept:'Engineering', x:832, y:242 },
+  { id:7,  name:'Frank',  dept:'Engineering', x:900, y:358 },
+  { id:8,  name:'Grace',  dept:'Engineering', x:812, y:456 },
+  { id:9,  name:'Henry',  dept:'Engineering', x:708, y:328 },
+  { id:10, name:'Kim',    dept:'Operations',  x:400, y:518 },
+  { id:11, name:'Lars',   dept:'Operations',  x:532, y:518 },
+];
+const AI_NODE = { id:12, name:'AI Agent', dept:'AI', x:500, y:330 };
+
+// Department visual colours
+const DEPT_COLOR = {
+  Management: '#9B87D1',
+  Sales:      '#5B8FE0',
+  Engineering:'#4A68CF',
+  Operations: '#3D9D8E',
+  AI:         '#FFD166',
+};
+
+// Cluster background hulls [cx, cy, rx, ry]
+const HULLS = [
+  { dept:'Management',  cx:517, cy:143, rx:112, ry:68,  color:'#9B87D1' },
+  { dept:'Sales',       cx:198, cy:352, rx:138, ry:155, color:'#5B8FE0' },
+  { dept:'Engineering', cx:802, cy:352, rx:132, ry:155, color:'#4A68CF' },
+  { dept:'Operations',  cx:466, cy:518, rx:100, ry:52,  color:'#3D9D8E' },
+];
+
+// Human-human edges: { s, t, base, dPost, isNew }
+// base  = weight before AI (month 0–11)
+// dPost = total weight CHANGE over post-AI period (month 12–24, linear)
+// isNew = edge didn't meaningfully exist before AI
+const HH_EDGES = [
+  // ── Sales cluster ──────────────────────────────────
+  { s:2,  t:3,  base:7, dPost: 0,  isNew:false },
+  { s:2,  t:4,  base:5, dPost:-1,  isNew:false },
+  { s:2,  t:5,  base:4, dPost: 0,  isNew:false },
+  { s:3,  t:4,  base:6, dPost: 0,  isNew:false },
+  { s:3,  t:5,  base:5, dPost:-1,  isNew:false },
+  { s:4,  t:5,  base:5, dPost: 0,  isNew:false },
+  // ── Engineering cluster ────────────────────────────
+  { s:6,  t:7,  base:7, dPost: 2,  isNew:false },
+  { s:6,  t:8,  base:6, dPost: 1,  isNew:false },
+  { s:6,  t:9,  base:5, dPost: 0,  isNew:false },
+  { s:7,  t:8,  base:5, dPost: 1,  isNew:false },
+  { s:7,  t:9,  base:5, dPost: 0,  isNew:false },
+  { s:8,  t:9,  base:4, dPost: 0,  isNew:false },
+  // ── Management ────────────────────────────────────
+  { s:0,  t:1,  base:6, dPost:-2,  isNew:false },
+  // ── Operations ────────────────────────────────────
+  { s:10, t:11, base:5, dPost: 0,  isNew:false },
+  // ── Mgmt ↔ Sales (Isabel & Jack as brokers) ───────
+  { s:0,  t:2,  base:5, dPost:-3,  isNew:false },
+  { s:0,  t:3,  base:4, dPost:-3,  isNew:false },
+  { s:0,  t:4,  base:3, dPost:-2,  isNew:false },
+  { s:1,  t:2,  base:3, dPost:-3,  isNew:false },
+  // ── Mgmt ↔ Engineering ────────────────────────────
+  { s:0,  t:6,  base:4, dPost:-3,  isNew:false },
+  { s:0,  t:7,  base:3, dPost:-2,  isNew:false },
+  { s:1,  t:6,  base:3, dPost:-3,  isNew:false },
+  // ── Mgmt ↔ Operations ─────────────────────────────
+  { s:0,  t:10, base:3, dPost: 0,  isNew:false },
+  { s:1,  t:11, base:2, dPost:-1,  isNew:false },
+  // ── Sales ↔ Operations ────────────────────────────
+  { s:2,  t:10, base:2, dPost: 0,  isNew:false },
+  // ── Engineering ↔ Operations ──────────────────────
+  { s:6,  t:10, base:2, dPost: 2,  isNew:false },
+  // ── Pre-AI sparse cross-cluster (strengthens) ─────
+  { s:2,  t:6,  base:1, dPost: 5,  isNew:false },
+  // ── NEW post-AI cross-cluster ties ────────────────
+  { s:3,  t:7,  base:0, dPost: 4,  isNew:true  },
+  { s:4,  t:8,  base:0, dPost: 3,  isNew:true  },
+  { s:5,  t:6,  base:0, dPost: 3,  isNew:true  },
+  // ── NEW Eng ↔ Ops post-AI ─────────────────────────
+  { s:7,  t:10, base:0, dPost: 2,  isNew:true  },
+  { s:8,  t:11, base:0, dPost: 2,  isNew:true  },
+];
+
+// AI edges (source = node 12)
+// initW = weight when first connected; growth = additional weight by month 24
+const AI_EDGES = [
+  { t:6,  startM:12, initW:5, growth:3 },  // Eva — first & deepest
+  { t:2,  startM:12, initW:4, growth:2 },  // Alice
+  { t:0,  startM:12, initW:3, growth:1 },  // Isabel
+  { t:7,  startM:12, initW:3, growth:2 },  // Frank
+  { t:3,  startM:13, initW:3, growth:1 },  // Bob
+  { t:5,  startM:13, initW:2, growth:2 },  // David
+  { t:8,  startM:14, initW:2, growth:1 },  // Grace
+  { t:10, startM:14, initW:2, growth:1 },  // Kim
+  { t:4,  startM:15, initW:1, growth:1 },  // Carol
+  { t:9,  startM:15, initW:2, growth:1 },  // Henry
+  { t:1,  startM:16, initW:1, growth:1 },  // Jack — slow adopter
+  { t:11, startM:17, initW:1, growth:1 },  // Lars — very slow
+];
+
+// Deterministic noise: gives organic ±0.6 variation per edge-month
+function noise(s, t, m) {
+  const k = s * 1973 + t * 937 + m * 137;
+  const v = Math.sin(k) * 43758.5453;
+  return (v - Math.floor(v) - 0.5) * 1.2; // –0.6 to +0.6
+}
+
+// Generate the edge list + active node list for a given month
+function getSnapshot(month) {
+  const nodes = month >= AI_MONTH ? [...PEOPLE, AI_NODE] : [...PEOPLE];
+  const edges = [];
+
+  HH_EDGES.forEach(ep => {
+    const n = noise(ep.s, ep.t, month);
+    let w;
+    if (month < AI_MONTH) {
+      w = ep.base + n;
+    } else {
+      const prog = Math.min((month - AI_MONTH) / 12, 1);
+      w = ep.base + ep.dPost * prog + n;
+    }
+    w = Math.max(0, Math.min(10, w));
+    if (w >= 0.6) {
+      edges.push({ s: ep.s, t: ep.t, w, type: ep.isNew ? 'new' : 'old' });
+    }
+  });
+
+  if (month >= AI_MONTH) {
+    AI_EDGES.forEach(ae => {
+      if (month < ae.startM) return;
+      const active = month - ae.startM;
+      const prog   = Math.min(active / 12, 1);
+      const n      = noise(12, ae.t, month) * 0.4;
+      let w = ae.initW + ae.growth * prog + n;
+      w = Math.max(0, Math.min(10, w));
+      edges.push({ s: 12, t: ae.t, w, type: 'ai' });
+    });
+  }
+
+  return { nodes, edges };
+}
+
+// Compute per-node weighted degree (totalWeight) and degree count
+function computeDegrees(nodes, edges) {
+  const tw = {}, deg = {};
+  nodes.forEach(n => { tw[n.id] = 0; deg[n.id] = 0; });
+  edges.forEach(e => {
+    tw[e.s]  = (tw[e.s]  || 0) + e.w;
+    tw[e.t]  = (tw[e.t]  || 0) + e.w;
+    deg[e.s] = (deg[e.s] || 0) + 1;
+    deg[e.t] = (deg[e.t] || 0) + 1;
+  });
+  return { tw, deg };
+}
+
+function nodeR(totalWeight) {
+  return Math.max(13, 9 + Math.sqrt(totalWeight) * 3.6);
+}
+
+// ================================================================
+// 2. SVG SETUP
+// ================================================================
+
+const svg = d3.select('#graph');
+
+// Dot-grid background
+const defs = svg.append('defs');
+defs.append('pattern')
+  .attr('id','dotgrid').attr('width',44).attr('height',44)
+  .attr('patternUnits','userSpaceOnUse')
+  .append('circle')
+    .attr('cx',22).attr('cy',22).attr('r',.9)
+    .attr('fill','rgba(90,130,220,0.12)');
+
+svg.append('rect')
+  .attr('width',1000).attr('height',600)
+  .attr('fill','url(#dotgrid)');
+
+// Cluster hulls
+const hullG = svg.append('g').attr('class','hulls');
+HULLS.forEach(h => {
+  hullG.append('ellipse')
+    .attr('cx', h.cx).attr('cy', h.cy)
+    .attr('rx', h.rx).attr('ry', h.ry)
+    .attr('fill', h.color).attr('fill-opacity', .055)
+    .attr('stroke', h.color).attr('stroke-opacity', .18)
+    .attr('stroke-width', 1.5);
+  hullG.append('text')
+    .attr('x', h.cx).attr('y', h.ry > 100 ? h.cy - h.ry + 16 : h.cy - h.ry + 13)
+    .attr('text-anchor','middle')
+    .attr('fill', h.color).attr('fill-opacity', .55)
+    .attr('font-size', 9).attr('font-weight', 700)
+    .attr('letter-spacing', '.12em')
+    .attr('font-family','Segoe UI,Arial,sans-serif')
+    .text(h.dept.toUpperCase());
+});
+
+const edgeG  = svg.append('g').attr('class','edges');
+const burstG = svg.append('g').attr('class','bursts');
+const nodeG  = svg.append('g').attr('class','nodes');
+
+// ================================================================
+// 3. EDGE & NODE HELPERS
+// ================================================================
+
+function eColor(type) {
+  return type === 'ai'  ? '#FFD166' :
+         type === 'new' ? '#00C89B' : '#8CA5E6';
+}
+function eOpacity(w, type) {
+  const base = w / 10;
+  return type === 'ai'  ? 0.28 + base * 0.62 :
+         type === 'new' ? 0.22 + base * 0.58 :
+                          0.14 + base * 0.52;
+}
+function eWidth(w, type) {
+  const base = 0.35 + w * 0.32;
+  return type === 'ai' ? base * 1.4 : base;
+}
+
+// ================================================================
+// 4. MAIN UPDATE FUNCTION
+// ================================================================
+
+function updateViz(month, animate) {
+  const dur = animate ? 520 : 0;
+  const { nodes, edges } = getSnapshot(month);
+  const { tw, deg } = computeDegrees(nodes, edges);
+  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+
+  // ── EDGES ──────────────────────────────────────────
+  const eSel = edgeG.selectAll('line.edge')
+    .data(edges, d => `${d.s}-${d.t}`);
+
+  eSel.enter().append('line').attr('class','edge')
+    .attr('x1', d => byId[d.s].x).attr('y1', d => byId[d.s].y)
+    .attr('x2', d => byId[d.t].x).attr('y2', d => byId[d.t].y)
+    .attr('stroke', d => eColor(d.type))
+    .attr('stroke-width', 0).attr('stroke-opacity', 0)
+  .merge(eSel)
+    .transition().duration(dur)
+    .attr('stroke', d => eColor(d.type))
+    .attr('stroke-width', d => eWidth(d.w, d.type))
+    .attr('stroke-opacity', d => eOpacity(d.w, d.type));
+
+  eSel.exit().transition().duration(dur * .6)
+    .attr('stroke-opacity', 0).remove();
+
+  // ── NODES ──────────────────────────────────────────
+  const nSel = nodeG.selectAll('g.node')
+    .data(nodes, d => d.id);
+
+  const nEnter = nSel.enter().append('g').attr('class','node')
+    .attr('transform', d => `translate(${d.x},${d.y})`);
+
+  nEnter.append('circle').attr('class', d => 'node-circle' + (d.dept === 'AI' ? ' ai-glow' : ''))
+    .attr('r', 0)
+    .attr('fill', d => DEPT_COLOR[d.dept])
+    .attr('fill-opacity', d => d.dept === 'AI' ? 1 : 0.88)
+    .attr('stroke', d => d.dept === 'AI' ? 'rgba(255,220,120,.7)' : 'rgba(255,255,255,.22)')
+    .attr('stroke-width', d => d.dept === 'AI' ? 2.5 : 1.5);
+
+  nEnter.append('text').attr('class','node-label').attr('dy','.35em').text(d => d.name);
+
+  const nMerge = nSel.merge(nEnter);
+
+  nMerge.transition().duration(dur)
+    .attr('transform', d => `translate(${d.x},${d.y})`);
+  nMerge.select('circle').transition().duration(dur)
+    .attr('r', d => nodeR(tw[d.id] || 0));
+  nMerge.select('text')
+    .style('font-size', d => Math.max(8, Math.min(11, nodeR(tw[d.id]||0) * .42)) + 'px');
+
+  // Hover interaction (re-bound each update so closures stay fresh)
+  nMerge
+    .on('mouseover', (evt, d) => {
+      showTT(evt, d, month, tw, deg, edges);
+      edgeG.selectAll('line.edge')
+        .style('opacity', e => e.s === d.id || e.t === d.id ? 1 : .08);
+      nodeG.selectAll('g.node')
+        .style('opacity', n => {
+          if (n.id === d.id) return 1;
+          return edges.some(e => (e.s===d.id&&e.t===n.id)||(e.t===d.id&&e.s===n.id)) ? .85 : .22;
+        });
+    })
+    .on('mousemove', moveTT)
+    .on('mouseout', () => {
+      hideTT();
+      edgeG.selectAll('line.edge').style('opacity', null);
+      nodeG.selectAll('g.node').style('opacity', null);
+    });
+
+  nSel.exit().transition().duration(dur*.6).style('opacity',0).remove();
+
+  // ── DATE / BADGE ───────────────────────────────────
+  document.getElementById('date-display').textContent = monthLabel(month);
+  const badge = document.getElementById('phase-badge');
+  if (month < AI_MONTH) {
+    badge.textContent = 'Pre-AI Baseline';
+    badge.className = 'pre';
+  } else if (month === AI_MONTH) {
+    badge.textContent = 'AI Introduced';
+    badge.className = 'now';
+  } else {
+    badge.textContent = 'Post-AI Adoption';
+    badge.className = 'post';
+  }
+
+  // ── STATS ──────────────────────────────────────────
+  const crossDept = edges.filter(e => {
+    const sn = byId[e.s], tn = byId[e.t];
+    return sn && tn && sn.dept !== tn.dept;
+  }).length;
+
+  let topNode = null, topW = -1;
+  nodes.forEach(n => { if ((tw[n.id]||0) > topW) { topW = tw[n.id]; topNode = n; } });
+
+  const aiConns = month >= AI_MONTH
+    ? edges.filter(e => e.s === 12 || e.t === 12).length : 0;
+  const aiPct = Math.round(aiConns / 12 * 100);
+
+  document.getElementById('s-links').textContent = edges.length;
+  document.getElementById('s-cross').textContent = crossDept;
+  document.getElementById('s-top').textContent   = topNode ? topNode.name : '—';
+  document.getElementById('s-ai').textContent    = aiPct + ' %';
+
+  // ── ANNOTATION ─────────────────────────────────────
+  const ann = ANNOTATIONS.find(a => month >= a.r[0] && month <= a.r[1]);
+  const annEl = document.getElementById('annotation');
+  if (ann) { annEl.textContent = ann.t; annEl.classList.remove('hidden'); }
+  else      { annEl.classList.add('hidden'); }
+}
+
+const ANNOTATIONS = [
+  { r:[0,5],   t:'Baseline: three isolated department clusters. Isabel (Management) acts as the main information broker between Sales and Engineering.' },
+  { r:[6,11],  t:'Stable pre-AI structure: knowledge flows through central gatekeepers. Direct Sales–Engineering collaboration is minimal.' },
+  { r:[12,12], t:'★  March 2025: AI tools deployed. Eva (Engineering) and Alice (Sales) connect to AI first — watch the network restructure.' },
+  { r:[13,17], t:'Early adoption: cross-department ties begin forming. AI bypasses traditional management bottlenecks; Isabel and Jack become less central.' },
+  { r:[18,20], t:'Network restructuring: Sales and Engineering now collaborate directly (teal edges). AI Agent is becoming the most connected actor.' },
+  { r:[21,24], t:'Transformed network: departments collaborate without management mediation. AI Agent and Eva are now the top connectors.' },
+];
+
+// AI ripple burst
+function playBurst() {
+  const ai = AI_NODE;
+  [0, 280, 560].forEach(delay => {
+    setTimeout(() => {
+      const ring = burstG.append('circle').attr('class','ripple')
+        .attr('cx', ai.x).attr('cy', ai.y).attr('r', 18);
+      ring.transition().duration(1450).ease(d3.easeQuadOut)
+        .attr('r', 115).style('stroke-opacity', 0).attr('stroke-width', .5)
+        .on('end', function() { d3.select(this).remove(); });
+    }, delay);
+  });
+}
+
+// ================================================================
+// 5. TOOLTIP
+// ================================================================
+function showTT(evt, d, month, tw, deg, edges) {
+  const tt = document.getElementById('tooltip');
+  document.getElementById('tt-name').textContent = d.name;
+  document.getElementById('tt-dept').textContent = d.dept;
+  document.getElementById('tt-conn').textContent = deg[d.id] || 0;
+  document.getElementById('tt-wt').textContent   = Math.round(tw[d.id] || 0);
+  const aiR = document.getElementById('tt-ai-row');
+  if (month >= AI_MONTH && d.dept !== 'AI') {
+    const ae = edges.find(e => (e.s===12&&e.t===d.id)||(e.t===12&&e.s===d.id));
+    if (ae) { document.getElementById('tt-ai').textContent = Math.round(ae.w); aiR.style.display='flex'; }
+    else aiR.style.display = 'none';
+  } else { aiR.style.display = 'none'; }
+  tt.classList.add('on');
+  moveTT(evt);
+}
+function moveTT(evt) {
+  const tt = document.getElementById('tooltip');
+  tt.style.left = Math.min(evt.clientX + 14, window.innerWidth - 175) + 'px';
+  tt.style.top  = Math.max(evt.clientY - 10,  10) + 'px';
+}
+function hideTT() { document.getElementById('tooltip').classList.remove('on'); }
+
+// ================================================================
+// 6. PLAYBACK CONTROLS
+// ================================================================
+let curMonth   = 0;
+let playing    = false;
+let timer      = null;
+let speed      = 1;
+let aiPaused   = false;
+
+const slider  = document.getElementById('slider');
+const playBtn = document.getElementById('play-btn');
+
+function setSliderFill(v) {
+  const p = (v / 24 * 100).toFixed(1);
+  slider.style.background =
+    `linear-gradient(to right, #344A9A 0%, #344A9A ${p}%, rgba(100,130,200,.2) ${p}%, rgba(100,130,200,.2) 100%)`;
+}
+
+function goTo(m, animate = true) {
+  const prev = curMonth;
+  curMonth = Math.max(0, Math.min(24, m));
+  slider.value = curMonth;
+  setSliderFill(curMonth);
+  updateViz(curMonth, animate);
+
+  // Special moment: AI appears
+  if (prev < AI_MONTH && curMonth >= AI_MONTH) {
+    playBurst();
+    if (playing) {
+      const wasPlaying = true;
+      stopPlay();
+      aiPaused = true;
+      setTimeout(() => {
+        if (aiPaused) { aiPaused = false; startPlay(); }
+      }, 1900);
+    }
+  }
+}
+
+function startPlay() {
+  if (curMonth >= 24) goTo(0, false);
+  playing = true;
+  playBtn.textContent = '⏸ Pause';
+  timer = setInterval(() => {
+    if (curMonth >= 24) { stopPlay(); return; }
+    goTo(curMonth + 1);
+  }, Math.round(850 / speed));
+}
+
+function stopPlay() {
+  playing = false; aiPaused = false;
+  playBtn.textContent = '▶ Play';
+  if (timer) { clearInterval(timer); timer = null; }
+}
+
+playBtn.addEventListener('click', () => playing ? stopPlay() : startPlay());
+
+slider.addEventListener('input', () => {
+  stopPlay();
+  goTo(+slider.value, false);
+});
+
+document.querySelectorAll('.spd-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.spd-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    speed = +btn.dataset.s;
+    if (playing) { stopPlay(); startPlay(); }
+  });
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight')   { stopPlay(); goTo(curMonth + 1); }
+  else if (e.key === 'ArrowLeft')  { stopPlay(); goTo(curMonth - 1); }
+  else if (e.key === ' ') { e.preventDefault(); playing ? stopPlay() : startPlay(); }
+});
+
+// ================================================================
+// 7. INITIALISE
+// ================================================================
+setSliderFill(0);
+updateViz(0, false);
+</script>
+</body>
+</html>

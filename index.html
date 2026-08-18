@@ -48,6 +48,10 @@
             background-color: var(--light-mint) !important;
         }
         
+        .navbar-item.has-dropdown:hover .navbar-dropdown {
+            display: block;
+        }
+        
         .hero {
             background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2624 100%);
             color: white;
@@ -272,8 +276,16 @@
                     <a class="navbar-item" id="nav-home" href="#home">Home</a>
                     <a class="navbar-item" id="nav-about" href="about.html">About</a>
                     <a class="navbar-item" id="nav-projects-services" href="#services">Projects & Services</a>
-                    <a class="navbar-item" id="nav-contact" href="contact.html">Contact</a>
+                <div class="navbar-item has-dropdown is-hoverable" id="nav-research">
+                    <a class="navbar-link">Research</a>
+                    <div class="navbar-dropdown is-right">
+                        <a class="navbar-item" href="network_analysis_ai_adoption_demo.html">Network Analysis: AI Adoption Demo</a>
+                        <a class="navbar-item" href="organizational_data_analysis.html">Organizational Data Analysis</a>
+                        <a class="navbar-item" href="ai_impact_report.html">AI Impact Report</a>
+                    </div>
                 </div>
+                <a class="navbar-item" id="nav-contact" href="contact.html">Contact</a>
+            </div>
             </div>
         </div>
     </nav>
